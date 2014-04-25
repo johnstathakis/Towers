@@ -1,0 +1,60 @@
+* {
+  margin: 0;
+  outline: none;
+  font-family: 'Open Sans';
+  font-weight: 400;
+}
+body {
+  background-image: url(../Assets/1.png);
+  background-color: #f2f2f2;
+  margin-top: -5px;
+}
+.button {
+  padding: 15px 0;
+  margin-top: 15px;
+  color: white;
+  font-size: 18px;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  width: 140px;
+  height: 30px;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+#tower-1-button {
+  background-color: #2e2e2e;
+}
+#tower-2-button {
+  background-color: #5485ff;
+}
+#tower-3-button {
+  background-color: #55a535;
+}
+#tower-4-button {
+  background-color: #fca353;
+}
+#tower-1-button:hover {
+  background-color: #4d4d4d;
+}
+#tower-2-button:hover {
+  background-color: 6993ff;
+}
+#tower-3-button:hover {
+  background-color: #6aba4a;
+}
+#tower-4-button:hover {
+  background-color: #ffaf69;
+}
+#tower-button-container {
+  position: absolute;
+  top: 0;
+  right: 15px;
+  width: 140px;
+}
+#start-button {
+  position: absolute;
+  top: 0px;
+  left: 15px;
+}

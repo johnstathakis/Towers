@@ -1,0 +1,74 @@
+﻿@light-gray: #f2f2f2;
+
+@tower-black: #2e2e2e;
+@tower-light-black: #4d4d4d;
+
+@tower-blue: #5485ff;
+@tower-light-blue: 6993ff;
+
+@tower-green: #55a535;
+@tower-light-green: #6aba4a;
+
+@tower-orange: #fca353;
+@tower-light-orange: #ffaf69;
+
+* {
+    margin: 0;
+    outline: none;
+    font-family: 'Open Sans';
+    font-weight: 400;
+}
+body{
+    background-image: url(../Assets/1.png);
+    background-color: @light-gray;
+    margin-top: -5px;
+}
+.button{
+    padding: 15px 0;
+    margin-top: 15px;
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    width: 140px;
+    height: 30px;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+}
+#tower-1-button{
+    background-color: @tower-black;
+}
+#tower-2-button{
+    background-color:@tower-blue;
+}
+#tower-3-button{
+    background-color: @tower-green;
+}
+#tower-4-button{
+    background-color: @tower-orange;
+}
+#tower-1-button:hover{
+    background-color: @tower-light-black;
+}
+#tower-2-button:hover{
+    background-color: @tower-light-blue;
+}
+#tower-3-button:hover{
+    background-color: @tower-light-green;
+}
+#tower-4-button:hover{
+    background-color: @tower-light-orange;
+}
+#tower-button-container{
+    position: absolute;
+    top: 0;
+    right: 15px;
+    width: 140px;
+}
+#start-button{
+    position: absolute;
+    top: 0px;
+    left: 15px;
+}
