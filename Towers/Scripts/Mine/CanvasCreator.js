@@ -56,10 +56,12 @@ var bulletTypes = new Array(
                                 width: 15,
                                 shape: 'rectangle',
                                 color: '#000000',
+                                speed: 1,
                             })
 );
 
 enemyPath = "M0,418 L136,418 A1,1 0 0,1 457,418 A1,1 0 0,1 136,418 A1,1 0 0,1 457,418 L523,418 A1,1 0 0,0 1016,419 A1,1 0 0,0 523,418 A1,1 0 0,0 1016,419 L1080, 418 A1,1 0 0,1 1401,419 A1,1 0 0,1 1080,419 A1,1 0 0,1 1401,419 L1399,442 L1396,462 L1390,478 L1377,505 L1360,527 L1341,544 L1318,560 L1295,571 L1269,577 L1243,580 L1243,860 L0,860"
+
 
 var enemiesExist = false;
 
@@ -69,29 +71,28 @@ function SVG(tag) {
 
 function paintAndAddTower(left, top, type) {
     var newTower = createTower(left, top, type);
-    var towerOffset = newTower.offset();
     newTower.attr('class', 'tower1');
     newTower.css('-webkit-transform-origin-x', (left + parseInt(newTower.attr('width'))/2) + 'px');
     newTower.css('-webkit-transform-origin-y', (top + parseInt(newTower.attr('height'))/2) + 'px');
     towers.push({
         tower: newTower,
-        offset: towerOffset
+        offset: newTower.offset(),
     });
 }
 
 function paintAndAddEnemy(type) {
     var newEnemy = createEnemy(type);
     newEnemy.attr('id', 'enemy' + enemies.length);
-    var newAnimation = createAnimation(newEnemy, type.speed);
+    var newAnimation = createAnimation(newEnemy, type.speed, enemyPath);
     newAnimation.attr('id', 'animation' + enemies.length);
     //document.getElementById('animation' + enemies.length).setAttribute('repeatCount', 'indefinite');
     enemies.push(newEnemy);
 }
 
-function paintAndAddBullet(type) {
+function paintAndAddBullet(type, bulletPath) {
     var newBullet = createBullet(type);
     newBullet.attr('id', 'bullet' + bullets.length);
-    var newAnimation = createAnimation(newBullet, type.speed);
+    var newAnimation = createAnimation(newBullet, type.speed, bulletPath);
     newAnimation.attr('id', 'animation' + bullets.length);
     //document.getElementById('animation' + enemies.length).setAttribute('repeatCount', 'indefinite');
     bullets.push(newBullet);
@@ -129,11 +130,25 @@ function createBullet(type) {
     return newBullet;
 }
 
-function createAnimation(parent, dur) {
+function createBulletPath() {
+    var tower_center_x = towers[0].offset.left + parseInt(towers[0].tower.attr('width'));
+    var tower_center_y = towers[0].offset.top + parseInt(towers[0].tower.attr('height'));
+
+    var enemy_center_x = getEnemyLocations().x;
+    var enemy_center_y = getEnemyLocations().y;
+
+    var towerLocation = 'M' + tower_center_x + ',' + tower_center_y;
+    var enemyLocation = 'L' + enemy_center_y + ',' + enemy_center_y;
+    
+    var bulletPath = towerLocation + " " + enemyLocation;
+    return bulletPath;
+}
+
+function createAnimation(parent, dur, path) {
     var newAnimation = $(SVG('animateMotion'))
             .attr('begin', (($.now() - startTime) / 1000) + 's')
             .attr('dur', (dur))
-            .attr('path', enemyPath)
+            .attr('path', path)
             .attr('rotate', 'auto')
             .appendTo(parent);
     return newAnimation;
@@ -171,8 +186,8 @@ function getEnemyLocations() {
 function updateTowers(enemyLocation) {
     if(towers.length){
         for (var i = 0; i < towers.length; i++) {
-            var center_x = (towers[i].offset.left) + 25;
-            var center_y = (towers[i].offset.top) + 50;
+            var center_x = towers[i].offset.left + parseInt(towers[i].tower.attr('width'));
+            var center_y = towers[i].offset.top + parseInt(towers[i].tower.attr('height'));
             var radians = Math.atan2(center_y - enemyLocation.y, enemyLocation.x - center_x);
             var degree = -radians * 180 / Math.PI;
             var css = 'rotate(' + (degree + 90) + 'deg)';
@@ -194,7 +209,8 @@ window.setInterval(function () {
 
 var bulletButton = $('#bullet-button');
 bulletButton.click(function () {
-        paintAndAddBullet(bulletTypes[0]);
+        createBulletPath(getEnemyLocations());
+        paintAndAddBullet(bulletTypes[0], createBulletPath);
 });
 
 var tower1Button = $('#tower-1-button');
@@ -238,5 +254,3 @@ $(document).mouseup(function (e) {
     tower3ButtonPressed = 0;
     tower4ButtonPressed = 0;
 });
-
-
